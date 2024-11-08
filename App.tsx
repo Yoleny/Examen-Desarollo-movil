@@ -1,20 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// App.tsx
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { BankProvider } from './Context/BankContext';
+import HomeScreen from './HomeScreen';
+import TransferScreen from './TransferScreen';
+import HistoryScreen from './HistoryScreen';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <BankProvider>
+      <NavigationContainer>
+        <Stack.Navigator 
+          initialRouteName="Inicio"
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: '#007bff',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        >
+          <Stack.Screen 
+            name="Inicio" 
+            component={HomeScreen} 
+            options={{ title: 'Mi Banco' }}
+          />
+          <Stack.Screen 
+            name="Transferencias" 
+            component={TransferScreen} 
+            options={{ title: 'Realizar Transferencia' }}
+          />
+          <Stack.Screen 
+            name="Histórico" 
+            component={HistoryScreen} 
+            options={{ title: 'Historial de Transacciones' }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </BankProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
